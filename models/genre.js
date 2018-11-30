@@ -16,4 +16,4 @@ genreSchema
 });
 
 //Export model
-module.exports = mongoose.model('BookInstance', genreSchema); 
+module.exports = mongoose.model('Genre', genreSchema); 
