@@ -12,7 +12,7 @@ exports.bookinstance_list = function(req, res, next) {
       .exec(function (err, list_bookinstances) {
         if (err) { return next(err); }
         // Successful, so render
-        res.render('bookinstance_list', { title: 'Book Instance List', bookinstance_list: list_bookinstances });
+        res.render('bookinstance_list', { title: 'Lista de Instâncias do Livro', bookinstance_list: list_bookinstances });
       });
       
   };
@@ -26,12 +26,12 @@ exports.bookinstance_detail = function(req, res, next) {
     .exec(function (err, bookinstance) {
       if (err) { return next(err); }
       if (bookinstance==null) { // No results.
-          var err = new Error('Book copy not found');
+          var err = new Error('Cópia do livro não encontrada');
           err.status = 404;
           return next(err);
         }
       // Successful, so render.
-      res.render('bookinstance_detail', { title: 'Book:', bookinstance:  bookinstance});
+      res.render('bookinstance_detail', { title: 'Livro:', bookinstance:  bookinstance});
     })
 
 };
@@ -43,7 +43,7 @@ exports.bookinstance_create_get = function(req, res, next) {
     .exec(function (err, books) {
       if (err) { return next(err); }
       // Successful, so render.
-      res.render('bookinstance_form', {title: 'Create BookInstance', book_list:books});
+      res.render('bookinstance_form', {title: 'Criar uma Instância do Livro', book_list:books});
     });
     
 };
@@ -51,9 +51,9 @@ exports.bookinstance_create_get = function(req, res, next) {
 exports.bookinstance_create_post = [
 
     // Validate fields.
-    body('book', 'Book must be specified').isLength({ min: 1 }).trim(),
-    body('imprint', 'Imprint must be specified').isLength({ min: 1 }).trim(),
-    body('due_back', 'Invalid date').optional({ checkFalsy: true }).isISO8601(),
+    body('book', 'O livro deve ser especificado').isLength({ min: 1 }).trim(),
+    body('imprint', 'A impressão deve ser especificada').isLength({ min: 1 }).trim(),
+    body('due_back', 'Data inválida').optional({ checkFalsy: true }).isISO8601(),
     
     // Sanitize fields.
     sanitizeBody('book').trim().escape(),
@@ -81,7 +81,7 @@ exports.bookinstance_create_post = [
                 .exec(function (err, books) {
                     if (err) { return next(err); }
                     // Successful, so render.
-                    res.render('bookinstance_form', { title: 'Create BookInstance', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
+                    res.render('bookinstance_form', { title: 'Criar uma Instância do Livro', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
             });
             return;
         }
@@ -107,7 +107,7 @@ exports.bookinstance_delete_get = function(req, res, next) {
             res.redirect('/catalog/bookinstances');
         }
         // Successful, so render.
-        res.render('bookinstance_delete', { title: 'Delete BookInstance', bookinstance:  bookinstance});
+        res.render('bookinstance_delete', { title: 'Excluir a instância do livro', bookinstance:  bookinstance});
     })
 
 };
@@ -139,12 +139,12 @@ exports.bookinstance_update_get = function(req, res, next) {
         }, function(err, results) {
             if (err) { return next(err); }
             if (results.bookinstance==null) { // No results.
-                var err = new Error('Book copy not found');
+                var err = new Error('Cópia do livro não encontrada');
                 err.status = 404;
                 return next(err);
             }
             // Success.
-            res.render('bookinstance_form', { title: 'Update  BookInstance', book_list : results.books, selected_book : results.bookinstance.book._id, bookinstance:results.bookinstance });
+            res.render('bookinstance_form', { title: 'Atualizar Instância do Livro', book_list : results.books, selected_book : results.bookinstance.book._id, bookinstance:results.bookinstance });
         });
 
 };
@@ -152,9 +152,9 @@ exports.bookinstance_update_get = function(req, res, next) {
 exports.bookinstance_update_post = [
 
     // Validate fields.
-    body('book', 'Book must be specified').isLength({ min: 1 }).trim(),
-    body('imprint', 'Imprint must be specified').isLength({ min: 1 }).trim(),
-    body('due_back', 'Invalid date').optional({ checkFalsy: true }).isISO8601(),
+    body('book', 'O livro deve ser especificado').isLength({ min: 1 }).trim(),
+    body('imprint', 'A impressão deve ser especificada').isLength({ min: 1 }).trim(),
+    body('due_back', 'Data inválida').optional({ checkFalsy: true }).isISO8601(),
     
     // Sanitize fields.
     sanitizeBody('book').trim().escape(),
@@ -183,7 +183,7 @@ exports.bookinstance_update_post = [
                 .exec(function (err, books) {
                     if (err) { return next(err); }
                     // Successful, so render.
-                    res.render('bookinstance_form', { title: 'Update BookInstance', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
+                    res.render('bookinstance_form', { title: 'Atualizar Instância do Livro', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
             });
             return;
         }

@@ -12,7 +12,7 @@ exports.author_list = function(req, res, next) {
       .exec(function (err, list_authors) {
         if (err) { return next(err); }
         //Successful, so render
-        res.render('author_list', { title: 'Author List', author_list: list_authors });
+        res.render('author_list', { title: 'Lista de Autores', author_list: list_authors });
       });
   
   };
@@ -32,19 +32,19 @@ exports.author_detail = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); } // Error in API usage.
         if (results.author==null) { // No results.
-            var err = new Error('Author not found');
+            var err = new Error('Autor não encontrado');
             err.status = 404;
             return next(err);
         }
         // Successful, so render.
-        res.render('author_detail', { title: 'Author Detail', author: results.author, author_books: results.authors_books } );
+        res.render('author_detail', { title: 'Detalhes do Autor', author: results.author, author_books: results.authors_books } );
     });
 
 };
 
 // Display Author create form on GET.
 exports.author_create_get = function(req, res) {
-        res.render('author_form', { title: 'Create Author'});
+        res.render('author_form', { title: 'Novo Autor'});
 };
 
 // Handle Author create on POST.
@@ -72,7 +72,7 @@ exports.author_create_post = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.render('author_form', { title: 'Create Author', author: req.body, errors: errors.array() });
+            res.render('author_form', { title: 'Novo Autor', author: req.body, errors: errors.array() });
             return;
         }
         else {
@@ -111,7 +111,7 @@ exports.author_delete_get = function(req, res, next) {
         }
         // Successful, so render.
         console.log(results.author)
-        res.render('author_delete', { title: 'Delete Author', author: results.author, author_books: results.authors_books } );
+        res.render('author_delete', { title: 'Deletar Autor', author: results.author, author_books: results.authors_books } );
     });
 
 };
@@ -131,7 +131,7 @@ exports.author_delete_post = function(req, res, next) {
         // Success
         if (results.authors_books.length > 0) {
             // Author has books. Render in same way as for GET route.
-            res.render('author_delete', { title: 'Delete Author', author: results.author, author_books: results.authors_books } );
+            res.render('author_delete', { title: 'Deletar Autor', author: results.author, author_books: results.authors_books } );
             return;
         }
         else {
@@ -151,12 +151,12 @@ exports.author_update_get = function (req, res, next) {
     Author.findById(req.params.id, function (err, author) {
         if (err) { return next(err); }
         if (author == null) { // No results.
-            var err = new Error('Author not found');
+            var err = new Error('Autor não encontrado');
             err.status = 404;
             return next(err);
         }
         // Success.
-        res.render('author_form', { title: 'Update Author', author: author });
+        res.render('author_form', { title: 'Atualizar Author', author: author });
 
     });
 };
@@ -164,12 +164,12 @@ exports.author_update_get = function (req, res, next) {
 exports.author_update_post = [
 
     // Validate fields.
-    body('first_name').isLength({ min: 1 }).trim().withMessage('First name must be specified.')
-        .isAlphanumeric().withMessage('First name has non-alphanumeric characters.'),
-    body('family_name').isLength({ min: 1 }).trim().withMessage('Family name must be specified.')
-        .isAlphanumeric().withMessage('Family name has non-alphanumeric characters.'),
-    body('date_of_birth', 'Invalid date of birth').optional({ checkFalsy: true }).isISO8601(),
-    body('date_of_death', 'Invalid date of death').optional({ checkFalsy: true }).isISO8601(),
+    body('first_name').isLength({ min: 1 }).trim().withMessage('O primeiro nome deve ser especificado.')
+        .isAlphanumeric().withMessage('Primeiro nome tem caracteres não alfanuméricos.'),
+    body('family_name').isLength({ min: 1 }).trim().withMessage('O sobrenome deve ser especificado.')
+        .isAlphanumeric().withMessage('O sobrenome tem caracteres não alfanuméricos.'),
+    body('date_of_birth', 'Data de nascimento inválida').optional({ checkFalsy: true }).isISO8601(),
+    body('date_of_death', 'Data de nascimento inválida').optional({ checkFalsy: true }).isISO8601(),
 
     // Sanitize fields.
     sanitizeBody('first_name').trim().escape(),
@@ -196,7 +196,7 @@ exports.author_update_post = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render the form again with sanitized values and error messages.
-            res.render('author_form', { title: 'Update Author', author: author, errors: errors.array() });
+            res.render('author_form', { title: 'Atualizar Author', author: author, errors: errors.array() });
             return;
         }
         else {

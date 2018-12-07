@@ -2,6 +2,7 @@ var Book = require('../models/book');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
 var BookInstance = require('../models/bookinstance');
+
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -16,7 +17,7 @@ exports.index = function(req, res) {
             BookInstance.countDocuments({}, callback);
         },
         book_instance_available_count: function(callback) {
-            BookInstance.countDocuments({status:'Available'}, callback);
+            BookInstance.countDocuments({status:'Disponível'}, callback);
         },
         author_count: function(callback) {
             Author.countDocuments({}, callback);
@@ -25,7 +26,7 @@ exports.index = function(req, res) {
             Genre.countDocuments({}, callback);
         }
     }, function(err, results) {
-        res.render('index', { title: 'Local Library Home', error: err, data: results });
+        res.render('index', { title: 'Biblioteca local', error: err, data: results });
     });
 };
 
@@ -37,7 +38,7 @@ exports.book_list = function(req, res, next) {
       .exec(function (err, list_books) {
         if (err) { return next(err); }
         //Successful, so render
-        res.render('book_list', { title: 'Book List', book_list: list_books });
+        res.render('book_list', { title: 'Lista de Livros', book_list: list_books });
       });
       
   };
@@ -61,12 +62,12 @@ exports.book_detail = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); }
         if (results.book==null) { // No results.
-            var err = new Error('Book not found');
+            var err = new Error('Livro não encontrado');
             err.status = 404;
             return next(err);
         }
         // Successful, so render.
-        res.render('book_detail', { title: 'Title', book: results.book, book_instances: results.book_instance } );
+        res.render('book_detail', { title: 'Título', book: results.book, book_instances: results.book_instance } );
     });
 
 };
@@ -84,7 +85,7 @@ exports.book_detail = function(req, res, next) {
             },
         }, function(err, results) {
             if (err) { return next(err); }
-            res.render('book_form', { title: 'Create Book', authors: results.authors, genres: results.genres });
+            res.render('book_form', { title: 'Novo Livro', authors: results.authors, genres: results.genres });
         });
         
     };
@@ -104,10 +105,10 @@ exports.book_create_post = [
     },
 
     // Validate fields.
-    body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
-    body('author', 'Author must not be empty.').isLength({ min: 1 }).trim(),
-    body('summary', 'Summary must not be empty.').isLength({ min: 1 }).trim(),
-    body('isbn', 'ISBN must not be empty').isLength({ min: 1 }).trim(),
+    body('title', 'O título não pode estar vazio.').isLength({ min: 1 }).trim(),
+    body('author', 'O autor não deve estar vazio.').isLength({ min: 1 }).trim(),
+    body('summary', 'O Sumário não pode estar vazio.').isLength({ min: 1 }).trim(),
+    body('isbn', 'O ISBN não pode estar vazio').isLength({ min: 1 }).trim(),
   
     // Sanitize fields (using wildcard).
     sanitizeBody('*').trim().escape(),
@@ -147,7 +148,7 @@ exports.book_create_post = [
                         results.genres[i].checked='true';
                     }
                 }
-                res.render('book_form', { title: 'Create Book',authors:results.authors, genres:results.genres, book: book, errors: errors.array() });
+                res.render('book_form', { title: 'Novo Livro',authors:results.authors, genres:results.genres, book: book, errors: errors.array() });
             });
             return;
         }
@@ -179,7 +180,7 @@ exports.book_update_get = function(req, res, next) {
         }, function(err, results) {
             if (err) { return next(err); }
             if (results.book==null) { // No results.
-                var err = new Error('Book not found');
+                var err = new Error('Livro não encontrado');
                 err.status = 404;
                 return next(err);
             }
@@ -192,7 +193,7 @@ exports.book_update_get = function(req, res, next) {
                     }
                 }
             }
-            res.render('book_form', { title: 'Update Book', authors:results.authors, genres:results.genres, book: results.book });
+            res.render('book_form', { title: 'Atualizar Livro', authors:results.authors, genres:results.genres, book: results.book });
         });
 
 };
@@ -212,10 +213,10 @@ exports.book_update_post = [
     },
    
     // Validate fields.
-    body('title', 'Title must not be empty.').isLength({ min: 1 }).trim(),
-    body('author', 'Author must not be empty.').isLength({ min: 1 }).trim(),
-    body('summary', 'Summary must not be empty.').isLength({ min: 1 }).trim(),
-    body('isbn', 'ISBN must not be empty').isLength({ min: 1 }).trim(),
+    body('title', 'O título não pode estar vazio.').isLength({ min: 1 }).trim(),
+    body('author', 'O autor não deve estar vazio.').isLength({ min: 1 }).trim(),
+    body('summary', 'O Sumário não pode estar vazio.').isLength({ min: 1 }).trim(),
+    body('isbn', 'O ISBN não pode estar vazio').isLength({ min: 1 }).trim(),
 
     // Sanitize fields.
     sanitizeBody('title').trim().escape(),
@@ -260,7 +261,7 @@ exports.book_update_post = [
                         results.genres[i].checked='true';
                     }
                 }
-                res.render('book_form', { title: 'Update Book',authors:results.authors, genres:results.genres, book: book, errors: errors.array() });
+                res.render('book_form', { title: 'Atualizar Livro',authors:results.authors, genres:results.genres, book: book, errors: errors.array() });
             });
             return;
         }
@@ -291,7 +292,7 @@ exports.book_delete_get = function(req, res, next) {
             res.redirect('/catalog/books');
         }
         // Successful, so render.
-        res.render('book_delete', { title: 'Delete Book', book: results.book, book_instances: results.book_bookinstances } );
+        res.render('book_delete', { title: 'Excluir Livro', book: results.book, book_instances: results.book_bookinstances } );
     });
 
 };
@@ -312,7 +313,7 @@ exports.book_delete_post = function(req, res, next) {
         // Success
         if (results.book_bookinstances.length > 0) {
             // Book has book_instances. Render in same way as for GET route.
-            res.render('book_delete', { title: 'Delete Book', book: results.book, book_instances: results.book_bookinstances } );
+            res.render('book_delete', { title: 'Excluir Livro', book: results.book, book_instances: results.book_bookinstances } );
             return;
         }
         else {

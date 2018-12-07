@@ -5,16 +5,16 @@ block content
 
   form(method='POST' action='')
     div.form-group
-      label(for='book') Book:
+      label(for='book') Livro:
       select#book.form-control(type='select', placeholder='Select book' name='book' required='true' )
         for book in book_list
           option(value=book._id, selected=(selected_book==book._id.toString() ? 'selected' : false) ) #{book.title}
         
     div.form-group
-      label(for='imprint') Imprint:
+      label(for='imprint') Impressão:
       input#imprint.form-control(type='text', placeholder='Publisher and date information' name='imprint' required='true' value=(undefined===bookinstance ? '' : bookinstance.imprint) )
     div.form-group
-      label(for='due_back') Date when book available:
+      label(for='due_back') Data quando o livro estiver disponível:
       input#due_back.form-control(type='date', name='due_back' value=(undefined===bookinstance ? '' : bookinstance.due_back_yyyy_mm_dd))
             
     div.form-group
@@ -25,7 +25,7 @@ block content
         option(value='Loaned' selected=(undefined===bookinstance || bookinstance.status!='Loaned' ? false:'selected')) Loaned
         option(value='Reserved' selected=(undefined===bookinstance || bookinstance.status!='Reserved' ? false:'selected')) Reserved
 
-    button.btn.btn-primary(type='submit') Submit
+    button.btn.btn-primary(type='submit') Salvar
 
   if errors 
     ul
