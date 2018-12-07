@@ -11,11 +11,11 @@ html(lang='en')
   body
     div(class='container-fluid' )
       div(class='row')
-        div(class='col-sm-2' style="background:#D3D3D3; height:620px; margin-bottom:20px;")
+        div(class='col-sm-2')
           block sidebar
             ul(class='sidebar-nav')
               li 
-                a(href='/catalog') Home
+                a(href='/catalog') Inicio
               li 
                 a(href='/catalog/books') Livros
               li 
@@ -27,16 +27,13 @@ html(lang='en')
               li 
                 hr
               li 
-                a(href='/catalog/author/create') Novo Autor
+                a(href='/catalog/author/create') Cadastrar Autor
               li 
-                a(href='/catalog/genre/create') Novo Gênero
+                a(href='/catalog/genre/create') Cadastrar Gênero
               li 
-                a(href='/catalog/book/create') Novo Livro
+                a(href='/catalog/book/create') Cadastrar Livro
               li 
-                a(href='/catalog/bookinstance/create') Nova Instância
+                a(href='/catalog/bookinstance/create') Cadastrar Instância
                 
         div(class='col-sm-10')
           block content
-
-        div(class="footer navbar-fixed-bottom" style="padding:10px;background:white")
-         p(style="text-align:center;color:#3A5FCD") Desenvolvido por Raislan & Anderson Ribeiro  
