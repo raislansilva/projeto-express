@@ -12,7 +12,8 @@ var app = express();
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://raislan:22453793gr@ds119523.mlab.com:19523/biblioteca_local';
+//var mongoDB = 'mongodb://raislan:22453793gr@ds119523.mlab.com:19523/biblioteca_local';
+var mongoDB = 'mongodb://renato:Ronaldoc.7@ds215370.mlab.com:15370/bibliotecalocal';
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
